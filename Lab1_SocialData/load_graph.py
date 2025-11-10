@@ -1,7 +1,8 @@
 import igraph as ig
 
 # Load the graph
-G = ig.Graph.Read_GraphML("retweet_network.graphml")
+G = ig.Graph.Read_GraphML("reply_network.graphml")
+# currently 'process_tweets' saves a directed graph
 G_undirected = G.as_undirected(combine_edges=None)
 
 print("Original directed edges:", G.ecount())
