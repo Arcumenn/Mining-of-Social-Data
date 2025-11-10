@@ -7,7 +7,7 @@ import orjson
 import pandas as pd
 from tqdm import tqdm
 
-authors_df = pd.read_csv("../MSD_data/accounts.tsv", sep="\t")
+authors_df = pd.read_csv("../data/accounts.tsv", sep="\t")
 author_ids = set(authors_df["author_id"].tolist())
 author_meta = authors_df.set_index("author_id")[["Lang", "Type", "Stance"]].to_dict(
     orient="index"
