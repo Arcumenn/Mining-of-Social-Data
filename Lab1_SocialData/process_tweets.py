@@ -1,6 +1,6 @@
 # for graph plotting
-import matplotlib.pyplot as plt
 import igraph as ig
+import matplotlib.pyplot as plt
 
 # faster than standard json package
 import orjson
@@ -55,33 +55,37 @@ with open("tweets_full_output.jsonl", "w") as out_file, open(
                 continue
             target = int(mentions[0]["id"])
 
-            # Extract hashtags safely
-            # hashtags = [h["tag"] for h in entities.get("hashtags", []) if "tag" in h]
-
             # Add edge
             edge = (
-                    author_id,
-                    target,
-                    row["public_metrics"]["retweet_count"],
-                    row["id"],
-                    # refs[0]["type"], # retweet / reply
-                    row["possibly_sensitive"],
-                    # hashtags,
-                )
+                author_id,
+                target,
+                row["public_metrics"]["retweet_count"],
+                row["id"],
+                row["possibly_sensitive"],
+            )
             if tweet_type == "retweeted":
                 retweet_edges.append(edge)
             else:
                 reply_edges.append(edge)
 
+    # add tweets still remaining in buffer
     if buffer:
         out_file.write("\n".join(buffer) + "\n")
 
-
-reply_graph = ig.Graph.TupleList(reply_edges, vertex_name_attr="account_id", edge_attrs=["weight", "tweet_id", "possible_sensitive"])
-
-retweet_graph = ig.Graph.TupleList(retweet_edges, vertex_name_attr="account_id", edge_attrs=["weight", "tweet_id", "possible_sensitive"])
+# create a reply & a retweet graph
+reply_graph = ig.Graph.TupleList(
+    reply_edges,
+    vertex_name_attr="account_id",
+    edge_attrs=["weight", "tweet_id", "possible_sensitive"],
+)
+retweet_graph = ig.Graph.TupleList(
+    retweet_edges,
+    vertex_name_attr="account_id",
+    edge_attrs=["weight", "tweet_id", "possible_sensitive"],
+)
 
 print("Number of multiple references", multiple_references)
 
+# write the graphs to .graphml files
 reply_graph.write_graphml("reply_network.graphml")
 retweet_graph.write_graphml("retweet_network.graphml")

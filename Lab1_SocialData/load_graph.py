@@ -2,15 +2,8 @@ import igraph as ig
 
 # Load the graph
 G = ig.Graph.Read_GraphML("reply_network.graphml")
-# currently 'process_tweets' saves a directed graph
+# currently 'process_tweets' saves a directed graph; thus it is converted here
 G_undirected = G.as_undirected(combine_edges=None)
-
-print("Original directed edges:", G.ecount())
-print("Undirected edges (with duplicates kept):", G_undirected.ecount())
-
-print("Number of nodes:", G_undirected.vcount())
-print("Number of edges:", G_undirected.ecount())
-print("Is directed?", G_undirected.is_directed())
 
 # Print first 5 vertices with attributes
 for v in G_undirected.vs[:5]:
