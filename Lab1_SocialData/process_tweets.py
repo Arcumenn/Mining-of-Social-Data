@@ -20,7 +20,7 @@ retweet_edges = []
 reply_edges = []
 # count number of tweets with multiple references (might be worth keeping them in; currently ~400 removed)
 multiple_references = 0
-# with open("tweets_output.jsonl", "w") as out_file, open("./dummy_tweets.dat", "r") as in_file:
+# with open("tweets_output.jsonl", "w") as out_file, open("../data/first1000_tweets.dat", "r") as in_file:
 with open("tweets_full_output.jsonl", "w") as out_file, open(
     "../data/tweets.dat", "r"
 ) as in_file:
